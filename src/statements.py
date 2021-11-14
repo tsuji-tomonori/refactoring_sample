@@ -7,6 +7,23 @@ def statement(invoice: dict, plays: dict) -> str:
     def play_for(a_performance):
         return plays[a_performance["playID"]]
 
+    def amount_for(a_performance, play):
+        result = 0
+        match play_for(a_performance)["type"]:
+            case "tragedy":
+                result = 40000
+                if (a_performance["audience"] > 30):
+                    result += 1000 * (a_performance["audience"] - 30)
+            case "comedy":
+                result = 30000
+                if (a_performance["audience"] > 20):
+                    result += 10000 + 500 * (a_performance["audience"] - 20)
+                result += 300 * a_performance["audience"]
+            case _:
+                raise Exception(
+                    f"unknown type {play_for(a_performance)['type']}")
+        return result
+
     total_amount = 0
     volume_credits = 0
     result = f"Statement for {invoice['customer']}\n"
@@ -28,23 +45,6 @@ def statement(invoice: dict, plays: dict) -> str:
 
     result += f"Amount owed is {format(total_amount/100)}\n"
     result += f"You earned {volume_credits} credits\n"
-    return result
-
-
-def amount_for(a_performance, play):
-    result = 0
-    match play["type"]:
-        case "tragedy":
-            result = 40000
-            if (a_performance["audience"] > 30):
-                result += 1000 * (a_performance["audience"] - 30)
-        case "comedy":
-            result = 30000
-            if (a_performance["audience"] > 20):
-                result += 10000 + 500 * (a_performance["audience"] - 20)
-            result += 300 * a_performance["audience"]
-        case _:
-            raise Exception(f"unknown type {play['type']}")
     return result
 
 
