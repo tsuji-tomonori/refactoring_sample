@@ -7,7 +7,7 @@ def statement(invoice: dict, plays: dict) -> str:
     def play_for(a_performance):
         return plays[a_performance["playID"]]
 
-    def amount_for(a_performance, play):
+    def amount_for(a_performance):
         result = 0
         match play_for(a_performance)["type"]:
             case "tragedy":
@@ -32,7 +32,7 @@ def statement(invoice: dict, plays: dict) -> str:
     def format(x): return locale.currency(x, grouping=True)
 
     for perf in invoice["performances"]:
-        this_amount = amount_for(perf, play_for(perf))
+        this_amount = amount_for(perf)
 
         # ボリューム得点のポイントを加算
         volume_credits += max((perf["audience"] - 30, 0))
