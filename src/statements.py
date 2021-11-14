@@ -14,17 +14,18 @@ def statement(invoice: dict, plays: dict) -> str:
         play = plays[perf["playID"]]
         this_amount = 0
 
-        if(play["type"] == "tragedy"):
-            this_amount = 40000
-            if (perf["audience"] > 30):
-                this_amount += 1000 * (perf["audience"] - 30)
-        elif(play["type"] == "comedy"):
-            this_amount = 30000
-            if (perf["audience"] > 20):
-                this_amount += 10000 + 500 * (perf["audience"] - 20)
-            this_amount += 300 * perf["audience"]
-        else:
-            raise Exception(f"unknown type {play['type']}")
+        match play["type"]:
+            case "tragedy":
+                this_amount = 40000
+                if (perf["audience"] > 30):
+                    this_amount += 1000 * (perf["audience"] - 30)
+            case "comedy":
+                this_amount = 30000
+                if (perf["audience"] > 20):
+                    this_amount += 10000 + 500 * (perf["audience"] - 20)
+                this_amount += 300 * perf["audience"]
+            case _:
+                raise Exception(f"unknown type {play['type']}")
 
         # ボリューム得点のポイントを加算
         volume_credits += max((perf["audience"] - 30, 0))
