@@ -32,7 +32,6 @@ def statement(invoice: dict, plays: dict) -> str:
     def format(x): return locale.currency(x, grouping=True)
 
     for perf in invoice["performances"]:
-        this_amount = amount_for(perf)
 
         # ボリューム得点のポイントを加算
         volume_credits += max((perf["audience"] - 30, 0))
@@ -40,8 +39,8 @@ def statement(invoice: dict, plays: dict) -> str:
         if("comedy" == play_for(perf)["type"]):
             volume_credits += perf["audience"] // 5
         # 注文の内訳を出力
-        result += f"  {play_for(perf)['name']}: {format(this_amount/100)} ({perf['audience']} seats)\n"
-        total_amount += this_amount
+        result += f"  {play_for(perf)['name']}: {format(amount_for(perf)/100)} ({perf['audience']} seats)\n"
+        total_amount += amount_for(perf)
 
     result += f"Amount owed is {format(total_amount/100)}\n"
     result += f"You earned {volume_credits} credits\n"
