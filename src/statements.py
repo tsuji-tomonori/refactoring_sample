@@ -3,6 +3,10 @@ import locale
 
 
 def statement(invoice: dict, plays: dict) -> str:
+
+    def play_for(a_performance):
+        return plays[a_performance["playID"]]
+
     total_amount = 0
     volume_credits = 0
     result = f"Statement for {invoice['customer']}\n"
@@ -11,7 +15,7 @@ def statement(invoice: dict, plays: dict) -> str:
     def format(x): return locale.currency(x, grouping=True)
 
     for perf in invoice["performances"]:
-        play = plays[perf["playID"]]
+        play = play_for(perf)
         this_amount = amount_for(perf, play)
 
         # ボリューム得点のポイントを加算
