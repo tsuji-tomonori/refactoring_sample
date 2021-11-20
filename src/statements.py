@@ -31,12 +31,13 @@ def statement(invoice: dict, plays: dict) -> str:
             result += a_performance["audience"] // 5
         return result
 
+    def format(a_number):
+        locale.setlocale(locale.LC_ALL, "en-US")
+        return locale.currency(a_number, grouping=True)
+
     total_amount = 0
     volume_credits = 0
     result = f"Statement for {invoice['customer']}\n"
-    locale.setlocale(locale.LC_ALL, "en-US")
-    # 以降formatを呼べば動くように
-    def format(x): return locale.currency(x, grouping=True)
 
     for perf in invoice["performances"]:
 
