@@ -36,10 +36,10 @@ def statement(invoice: dict, plays: dict) -> str:
         return locale.currency(a_number / 100, grouping=True)
 
     def total_volume_credits():
-        volume_credits = 0
+        result = 0
         for perf in invoice["performances"]:
-            volume_credits += volume_credits_for(perf)
-        return volume_credits
+            result += volume_credits_for(perf)
+        return result
 
     total_amount = 0
     result = f"Statement for {invoice['customer']}\n"
