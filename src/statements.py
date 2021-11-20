@@ -35,18 +35,21 @@ def statement(invoice: dict, plays: dict) -> str:
         locale.setlocale(locale.LC_ALL, "en-US")
         return locale.currency(a_number / 100, grouping=True)
 
+    def total_volume_credits():
+        volume_credits = 0
+        for perf in invoice["performances"]:
+            volume_credits += volume_credits_for(perf)
+        return volume_credits
+
     total_amount = 0
     result = f"Statement for {invoice['customer']}\n"
-
-    volume_credits = 0
-    for perf in invoice["performances"]:
-        volume_credits += volume_credits_for(perf)
 
     for perf in invoice["performances"]:
         # 注文の内訳を出力
         result += f"  {play_for(perf)['name']}: {usd(amount_for(perf))} ({perf['audience']} seats)\n"
         total_amount += amount_for(perf)
 
+    volume_credits = total_volume_credits()
     result += f"Amount owed is {usd(total_amount)}\n"
     result += f"You earned {volume_credits} credits\n"
     return result
