@@ -24,14 +24,12 @@ def statement(invoice: dict, plays: dict) -> str:
                     f"unknown type {play_for(a_performance)['type']}")
         return result
 
-    def volume_credits_for(perf):
-        volume_credits = 0
-        # ボリューム得点のポイントを加算
-        volume_credits += max((perf["audience"] - 30, 0))
-        # 喜劇のときは5人につきさらにポイントを加算
-        if("comedy" == play_for(perf)["type"]):
-            volume_credits += perf["audience"] // 5
-        return volume_credits
+    def volume_credits_for(a_performance):
+        result = 0
+        result += max((a_performance["audience"] - 30, 0))
+        if("comedy" == play_for(a_performance)["type"]):
+            result += a_performance["audience"] // 5
+        return result
 
     total_amount = 0
     volume_credits = 0
