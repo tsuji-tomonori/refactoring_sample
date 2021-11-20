@@ -42,10 +42,10 @@ def statement(invoice: dict, plays: dict) -> str:
         return result
 
     def apple_sauce():
-        total_amount = 0
+        result = 0
         for perf in invoice["performances"]:
-            total_amount += amount_for(perf)
-        return total_amount
+            result += amount_for(perf)
+        return result
 
     result = f"Statement for {invoice['customer']}\n"
 
