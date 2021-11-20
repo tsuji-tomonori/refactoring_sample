@@ -24,6 +24,15 @@ def statement(invoice: dict, plays: dict) -> str:
                     f"unknown type {play_for(a_performance)['type']}")
         return result
 
+    def volume_credits_for(perf):
+        volume_credits = 0
+        # ボリューム得点のポイントを加算
+        volume_credits += max((perf["audience"] - 30, 0))
+        # 喜劇のときは5人につきさらにポイントを加算
+        if("comedy" == play_for(perf)["type"]):
+            volume_credits += perf["audience"] // 5
+        return volume_credits
+
     total_amount = 0
     volume_credits = 0
     result = f"Statement for {invoice['customer']}\n"
@@ -33,11 +42,8 @@ def statement(invoice: dict, plays: dict) -> str:
 
     for perf in invoice["performances"]:
 
-        # ボリューム得点のポイントを加算
-        volume_credits += max((perf["audience"] - 30, 0))
-        # 喜劇のときは5人につきさらにポイントを加算
-        if("comedy" == play_for(perf)["type"]):
-            volume_credits += perf["audience"] // 5
+        volume_credits += volume_credits_for(perf)
+
         # 注文の内訳を出力
         result += f"  {play_for(perf)['name']}: {format(amount_for(perf)/100)} ({perf['audience']} seats)\n"
         total_amount += amount_for(perf)
