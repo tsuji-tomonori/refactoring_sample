@@ -41,11 +41,15 @@ def statement(invoice: dict, plays: dict) -> str:
             result += volume_credits_for(perf)
         return result
 
+    def apple_sauce():
+        total_amount = 0
+        for perf in invoice["performances"]:
+            total_amount += amount_for(perf)
+        return total_amount
+
     result = f"Statement for {invoice['customer']}\n"
 
-    total_amount = 0
-    for perf in invoice["performances"]:
-        total_amount += amount_for(perf)
+    total_amount = apple_sauce()
 
     for perf in invoice["performances"]:
         result += f"  {play_for(perf)['name']}: {usd(amount_for(perf))} ({perf['audience']} seats)\n"
