@@ -45,9 +45,10 @@ def statement(invoice: dict, plays: dict) -> str:
 
     total_amount = 0
     for perf in invoice["performances"]:
-        # 注文の内訳を出力
-        result += f"  {play_for(perf)['name']}: {usd(amount_for(perf))} ({perf['audience']} seats)\n"
         total_amount += amount_for(perf)
+
+    for perf in invoice["performances"]:
+        result += f"  {play_for(perf)['name']}: {usd(amount_for(perf))} ({perf['audience']} seats)\n"
 
     result += f"Amount owed is {usd(total_amount)}\n"
     result += f"You earned {total_volume_credits()} credits\n"
